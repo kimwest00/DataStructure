@@ -14,12 +14,20 @@ class Tree:
 
 		def __len__(self):
 				return self.size
-
-		def postorder(self, v):
-			if v.right != None:
-				print(v.right.key, end =' ')
-				self.postorder(v.left)
-				self.postorder(v.parent)
+		#1.가장 왼쪽트리로 이동(v.left == None)<= v.left !=None일때까지 계속 속으로 이동(재귀호출)
+		#2.v.left -> v.key -> v.right (<->preorder의 경우 v.key가 바로 )
+		def isLeft(self,v):
+			if v.left == None:
+				return v
+			else:
+				return self.isLeft(v.left)
+		def inorder (self, v):
+			p = self.isLeft(v)
+			if p != None:
+				print(p.key,end=' ')
+				self.inorder(p.parent)
+				self.inorder(p.left)
+		
 # Tree class의 method로 선언
 		def preorder(self, v): # 노드 v와 자손 노드를 preorder로 방문하면서 출력
 			if v != None:
@@ -27,10 +35,12 @@ class Tree:
 				self.preorder(v.left)
 				self.preorder(v.right)
 				
-		def inorder(self,v):
-			if v.left != None:
-				print(v.left.key, end =' ')
-				self.inorder(v.parent)
+		def postorder(self,v):
+    		
+			if v != None:
+				self.inorder(v.left)
+				#self.inorder(v.parent)#해당코드는 처음 inorder함수가 실행될때,v.parent가 없으므로 에러남
+				print(v.key)
 				self.inorder(v.right)
 
 		def find_loc(self, key): # if key is in T, return its Node
@@ -80,7 +90,7 @@ while True:
         if v != None:
             print("+ {0} is set into H".format(v.key))
         else:
-            print(key, "is already in the tree!")
+            print(v.key, "is already in the tree!")
     elif cmd[0] == 'search':
         v = T.search(int(cmd[1]))
         if v == None: print("* {0} is not found!".format(cmd[1]))
