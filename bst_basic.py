@@ -17,12 +17,13 @@ class Tree:
 		#1.가장 왼쪽트리로 이동(v.left == None)<= v.left !=None일때까지 계속 속으로 이동(재귀호출)
 		#2.v.left -> v.key -> v.right (<->preorder의 경우 v.key가 바로 )
 		def isLeft(self,v):
-			if v.left == None:
+    			if v.left == None:
 				return v
 			else:
 				return self.isLeft(v.left)
 		def inorder (self, v):
-			p = self.isLeft(v)
+			if v == self.root:
+				p = self.isLeft(v)
 			if p != None:
 				print(p.key,end=' ')
 				self.inorder(p.parent)
