@@ -1,0 +1,134 @@
+순회: 트리의 각노드를 한번씩 방문하면서 노드를 출력(수정)한다.
+순회방법)
+1.preorder (M->l->R) F B A D C E G I H
+if v != None:
+				print(v.key)
+				self.preorder(v.left)
+				self.preorder(v.right)
+
+10->[(5->3->((7)->none->8))]->13->12->14
+
+
+
+2.inorder(L->M->R) A B C D E F G H I
+
+                 10 (10보다 큰 애들은 왼쪽;작은애들은 오른족)
+              5          13
+          3       7    12      14
+                      8     
+1. 가장 왼쪽에 있는 트리까지 도달
+2. (3->5->(7)->8)->(10->(12->13->14))
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. postorder(L->R->M)
+<= 이게 익숙하지가 않음 특히 inorder postorder
+
+insert
+
+
+
+
+                    10 (10보다 큰 애들은 왼쪽;작은애들은 오른족)
+              5          13
+          3       7    12      14
+                      8     
+10->5->3->7->8->13->12->14
+3->5->
+p보다 새로들어온얘가 크면 오른쪽에 배치한다
+작으면오른쪽에 배치한다
+
+
+		def find_loc(self, key): # if key is in T, return its Node
+			# if not in T, return the parent node under where it is inserted
+			if self.size == 0:
+				return None
+			p = None    # p = parent node of v
+			v = self.root # = 10
+			while v:    # while v != None
+				if v.key == key:
+					return v
+				else:
+					if v.key < key:  5<7
+						p = v 
+						v = v.right
+					else:#10>7
+						p = v #p = 10을 key로 가지는 노드
+						v = v.left #왼쪽노드로 이동(근데v는 비어있으므로 와일문이 끝남)
+			return p(5노드를 리턴)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           10
+         3     13
+inorder(L->M->R)
+=>1. 일단 제일 오른쪽 트리를 찾아야함
+2. 오른쪽 그다음 중앙으로 오고
+postorder(L->R->M)
+preorder 10->3->13
+inorder 3->10->13
+postorder 3->13->10
+if v != None:
+print(v.key, end =' ')#10출력
+self.preorder(v.left)# 3출력
+self.preorder(v.right)# 13출력				
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
