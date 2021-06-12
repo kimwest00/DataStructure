@@ -5,7 +5,7 @@
 class AdaptedHeap: # min_heap으로 정의함!
 	def __init__(self):
 		self.A = []
-		self.D = {}  # dictionary D[key] = index 
+		#self.D = {}  # dictionary D[key] = index 
 	def __str__(self):
 		return str(self.A)
 	def __len__(self):
@@ -14,14 +14,14 @@ class AdaptedHeap: # min_heap으로 정의함!
 	def heapify_up(self, k):	# 올라가면서 A[k]를 재베치
 		while k > 0 and self.A[(k-1)//2] > self.A[k] :
 			self.A[k], self.A[(k-1)//2] = self.A[(k-1)//2], self.A[k]
-			self.D[self.A[k]],self.D[self.A[(k-1)//2]] = self.D[self.A[(k-1)//2]],self.D[self.A[k]]
+			#self.D[self.A[k]],self.D[self.A[(k-1)//2]] = self.D[self.A[(k-1)//2]],self.D[self.A[k]]
 			k = (k-1)//2
 			
 	def insert(self, key):
 		self.A.append(key)
-		self.D[key] = len(self.A)-1
+		#self.D[key] = len(self.A)-1
 		self.heapify_up(len(self.A)-1)
-		return self.D[key]
+		#return self.D[key]
 		
 	
 	def heapify_down(self, k, n):
@@ -35,8 +35,7 @@ class AdaptedHeap: # min_heap으로 정의함!
 				m=R
 				
 			if m !=k:
-				self.D[self.A[m]]=k
-				self.D[self.A[k]]=m
+				
 				self.A[k],self.A[m] = self.A[m],self.A[k]
 			
 				k= m
@@ -60,36 +59,32 @@ class AdaptedHeap: # min_heap으로 정의함!
 		if len(self.A) == 0: 
 			return None
 		
-		self.D[self.A[0]] = len(self.A)-1
-		self.D[self.A[len(self.A)-1]] = 0
-		
+		key = self.A[0]
 		self.A[0], self.A[len(self.A)-1] = self.A[len(self.A)-1], self.A[0]
-		
-		key = self.A[-1]
-		self.D.pop(self.A[-1])
+		#self.D.pop(self.A[-1])
 		self.A.pop()	# 실제로 리스트에서 delete!
 		
 		self.heapify_down(0, len(self.A)) # len(self.A) = n-1
-		
 		return key
 	def decreaseKey(v,dist[v]):
 		pass
-def Dijkstra(G):
+def Dijkstra(G,n):
 	#numbers of nodes and edges of G
 	s = source node, simply 0
-	dist = [0, inf, ..., inf]
-	parent = [0, NULL, ..., NULL]
-	H = AdaptedHeap()#괄호안에 H에 들어갈 리스트 넣어야함
-	H.make_heap(nodes v of G with key dist[v])
+    dist = ["inf" for _ in range(n)]
+    dist[0] = 0
+    #parent = [Null for _ in range(10)]
+    #parent[0] = 0
+	H = AdaptedHeap(dist)#괄호안에 H에 들어갈 리스트 넣어야함
+	H.make_heap()#nodes v of G with key dist[v]
 	while len(H): # n iterations
 		u = H.delete_min()
-		for each v adjacent to u: # m edges are scanned in total
-			if (u, v) is an edge of G:
-				if dist[u] + cost(u, v) < dist[v]:
-					dist[v] = dist[u] + cost(u, v)
-					parent[v] = u
-					H.decreaseKey(v, dist[v])
-	return dist, parent
+		for v in G[u]: # m edges are scanned in total
+			if dist[u] + v[1] < dist[v]:
+				dist[v] = dist[u] + v[1]
+				#parent[v] = u
+				H.decreaseKey(v, dist[v])
+	return dist#, parent
 
 n = int(input())#노드 개수
 m = int((input()))#에지 개수
@@ -97,12 +92,12 @@ G = [[] for _ in range(n)]
 # G 입력 받아 처리
 for _ in range(m):
 	u, v, w = [int(x) for x in input().split()]#w는 가중치
-	G[u].append(u)
-	G[v].append(v)
+	G[u].append([v,w])
+	
    
 for v in range(n):
    G[v].sort()
-dist,parent = Dijkstra(G)
+dist = Dijkstra(G)
 for i in dist:
 	print(i ,end =' ')
 
